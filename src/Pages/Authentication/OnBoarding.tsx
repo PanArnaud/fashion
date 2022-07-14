@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import Animated, {
+  Extrapolate,
+  interpolate,
   interpolateColor,
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -9,9 +11,9 @@ import Animated, {
 import Dot from '../../Components/Dot';
 import Slide from '../../Components/Slide';
 import Subslide from '../../Components/Subslide';
+import theme from '../../Themes/Theme';
 
 const {width, height} = Dimensions.get('window');
-const BORDER_RADIUS = 75;
 
 const slides = [
   {
@@ -20,7 +22,11 @@ const slides = [
     color: '#BFEAF5',
     description:
       "Confused about your outfit? Don't worry! Find the best outfit here!",
-    picture: require("./../../../assets/images/1.png")
+    picture: {
+      src: require('./../../../assets/images/1.png'),
+      width: 2513,
+      height: 3583,
+    },
   },
   {
     title: 'Playful',
@@ -28,7 +34,11 @@ const slides = [
     color: '#BEECC4',
     description:
       'Hating the clothes in your wardrobe? Explore hundred of outfit ideas',
-    picture: require('./../../../assets/images/2.png')
+    picture: {
+      src: require('./../../../assets/images/2.png'),
+      width: 2791,
+      height: 3744,
+    },
   },
   {
     title: 'Excentric',
@@ -36,7 +46,11 @@ const slides = [
     color: '#FFE4D9',
     description:
       'Create your individual & unique style and look amazing everyday',
-    picture: require('./../../../assets/images/3.png')
+    picture: {
+      src: require('./../../../assets/images/3.png'),
+      width: 2738,
+      height: 3244,
+    },
   },
   {
     title: 'Funky',
@@ -44,7 +58,11 @@ const slides = [
     color: '#FFDDDD',
     description:
       'Discover the latest trends in fashion and explore your personality',
-    picture: require('./../../../assets/images/4.png')
+    picture: {
+      src: require('./../../../assets/images/4.png'),
+      width: 1757,
+      height: 2551,
+    },
   },
 ];
 
@@ -79,6 +97,29 @@ const OnBoarding = (): JSX.Element => {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.sliders, backgroundStyles]}>
+        {slides.map(({picture}, index) => {
+          const opacityStyles = useAnimatedStyle(() => {
+            return {
+              opacity: interpolate(
+                x.value,
+                [(index - 0.5) * width, index * width, (index + 0.5) * width],
+                [0, 1, 0],
+                Extrapolate.CLAMP,
+              ),
+            };
+          });
+          return (
+            <Animated.View key={index} style={[styles.underlay, opacityStyles]}>
+              <Image
+                source={picture.src}
+                style={{
+                  width: width - theme.borderRadii.xl,
+                  height: ((width - theme.borderRadii.xl) * picture.height) / picture.width,
+                }}
+              />
+            </Animated.View>
+          );
+        })}
         <Animated.ScrollView
           ref={scroll}
           horizontal
@@ -130,15 +171,22 @@ export default OnBoarding;
 
 const styles = StyleSheet.create({
   container: {flex: 1, backgroundColor: 'white'},
+  underlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    overflow: 'hidden',
+    borderBottomRightRadius: theme.borderRadii.xl,
+  },
   sliders: {
     height: 0.61 * height,
-    borderBottomRightRadius: BORDER_RADIUS,
+    borderBottomRightRadius: theme.borderRadii.xl,
   },
   footer: {flex: 1},
   footerContent: {
     flex: 1,
     backgroundColor: 'white',
-    borderTopLeftRadius: BORDER_RADIUS,
+    borderTopLeftRadius: theme.borderRadii.xl,
   },
   footerMainContent: {
     flex: 1,
@@ -147,7 +195,7 @@ const styles = StyleSheet.create({
   },
   pagination: {
     ...StyleSheet.absoluteFillObject,
-    height: BORDER_RADIUS,
+    height: theme.borderRadii.xl,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
