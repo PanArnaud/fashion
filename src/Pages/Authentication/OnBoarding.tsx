@@ -19,7 +19,7 @@ const slides = [
     subtitle: 'Find Your Outfits',
     color: '#BFEAF5',
     description:
-      "Confused abobut your outfit? Don't worry! Find the best outfit here!",
+      "Confused about your outfit? Don't worry! Find the best outfit here!",
     picture: require("./../../../assets/images/1.png")
   },
   {
