@@ -11,6 +11,7 @@ import Animated, {
 import Dot from '../../Components/Dot';
 import Slide from '../../Components/Slide';
 import Subslide from '../../Components/Subslide';
+import { Routes, StackNavigationProps } from '../../Navigators/Navigation';
 import theme from '../../Themes/Theme';
 
 const {width, height} = Dimensions.get('window');
@@ -66,7 +67,9 @@ const slides = [
   },
 ];
 
-const OnBoarding = (): JSX.Element => {
+const OnBoarding = ({
+  navigation,
+}: StackNavigationProps<Routes, 'OnBoarding'>): JSX.Element => {
   const scroll = useRef<Animated.ScrollView>(null);
   const x = useSharedValue(0);
 
@@ -114,7 +117,9 @@ const OnBoarding = (): JSX.Element => {
                 source={picture.src}
                 style={{
                   width: width - theme.borderRadii.xl,
-                  height: ((width - theme.borderRadii.xl) * picture.height) / picture.width,
+                  height:
+                    ((width - theme.borderRadii.xl) * picture.height) /
+                    picture.width,
                 }}
               />
             </Animated.View>
@@ -145,21 +150,26 @@ const OnBoarding = (): JSX.Element => {
             ))}
           </View>
           <Animated.View style={[styles.footerMainContent, footerStyles]}>
-            {slides.map(({subtitle, description}, index) => (
-              <Subslide
-                key={index}
-                onPress={() => {
-                  if (scroll.current) {
-                    scroll.current.scrollTo({
-                      x: width * (index + 1),
-                      animated: true,
-                    });
-                  }
-                }}
-                last={index === slides.length - 1}
-                {...{subtitle, description}}
-              />
-            ))}
+            {slides.map(({subtitle, description}, index) => {
+              const last = index === slides.length - 1;
+
+              return (
+                <Subslide
+                  key={index}
+                  onPress={() => {
+                    if (last) {
+                      navigation.navigate("Welcome");
+                    } else {
+                      scroll.current?.scrollTo({
+                        x: width * (index + 1),
+                        animated: true,
+                      });
+                    }
+                  }}
+                  {...{subtitle, description, last}}
+                />
+              );
+            })}
           </Animated.View>
         </View>
       </View>
