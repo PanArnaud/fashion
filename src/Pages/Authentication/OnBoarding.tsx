@@ -1,3 +1,4 @@
+import { useTheme } from '@shopify/restyle';
 import React, { useRef } from 'react';
 import { Dimensions, Image, StyleSheet, View } from 'react-native';
 import Animated, {
@@ -12,7 +13,7 @@ import Dot from '../../Components/Dot';
 import Slide from '../../Components/Slide';
 import Subslide from '../../Components/Subslide';
 import { Routes, StackNavigationProps } from '../../Navigators/Navigation';
-import theme from '../../Themes/Theme';
+import { makeStyles, Theme } from '../../Themes/Theme';
 
 const {width, height} = Dimensions.get('window');
 
@@ -70,6 +71,8 @@ const slides = [
 const OnBoarding = ({
   navigation,
 }: StackNavigationProps<Routes, 'OnBoarding'>): JSX.Element => {
+  const theme = useTheme<Theme>()
+  const styles = useStyle();
   const scroll = useRef<Animated.ScrollView>(null);
   const x = useSharedValue(0);
 
@@ -179,7 +182,7 @@ const OnBoarding = ({
 
 export default OnBoarding;
 
-const styles = StyleSheet.create({
+const useStyle = makeStyles((theme: Theme) => ({
   container: {flex: 1, backgroundColor: 'white'},
   underlay: {
     ...StyleSheet.absoluteFillObject,
@@ -210,4 +213,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-});
+}));

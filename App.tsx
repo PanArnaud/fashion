@@ -1,9 +1,9 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from '@shopify/restyle';
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AuthenticationNavigator from './src/Navigators/AuthenticationNavigator';
-import {ThemeProvider} from '@shopify/restyle';
-import theme from './src/Themes/Theme';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+import { theme } from './src/Themes/Theme';
 
 const App = () => {
   return (
