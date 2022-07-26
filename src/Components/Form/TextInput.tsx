@@ -13,7 +13,7 @@ interface TextInputProps extends RNTextInputProps {
   error?: string;
 }
 
-const TextInput = forwardRef(
+const TextInput = forwardRef<RNTextInput, TextInputProps>(
   ({icon, touched, error, ...props}: TextInputProps, ref): JSX.Element => {
     const theme = useTheme();
     const SIZE = theme.borderRadii.m * 2.5;

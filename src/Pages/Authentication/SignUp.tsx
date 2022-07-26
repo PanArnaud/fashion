@@ -1,14 +1,13 @@
-import React, {useRef} from 'react';
+import { useFormik } from 'formik';
+import React, { useRef } from 'react';
+import { TextInput as RNTextInput } from 'react-native';
 import * as Yup from 'yup';
-import {View} from 'react-native';
-import {Routes, StackNavigationProps} from '../../Navigators/Navigation';
-import {useFormik} from 'formik';
-import TextInput from '../../Components/Form/TextInput';
-import Container from '../../Components/Container';
-import {Box, Text} from '../../Themes/Theme';
-import Checkbox from '../../Components/Checkbox';
-import Button from '../../Components/Button';
 import AuthFooter from '../../Components/AuthFooter';
+import Button from '../../Components/Button';
+import Container from '../../Components/Container';
+import TextInput from '../../Components/Form/TextInput';
+import { Routes, StackNavigationProps } from '../../Navigators/Navigation';
+import { Box, Text } from '../../Themes/Theme';
 
 const SignUpSchema = Yup.object().shape({
   password: Yup.string()
@@ -34,9 +33,9 @@ const SignUp = ({
     onSubmit: values => console.log(values),
   });
 
-  const email = useRef<typeof TextInput>(null);
-  const password = useRef<typeof TextInput>(null);
-  const passwordConfirmation = useRef<typeof TextInput>(null);
+  const email = useRef<RNTextInput>(null);
+  const password = useRef<RNTextInput>(null);
+  const passwordConfirmation = useRef<RNTextInput>(null);
 
   const footer = (
     <AuthFooter

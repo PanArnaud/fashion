@@ -8,6 +8,7 @@ import Container from '../../Components/Container';
 import TextInput from '../../Components/Form/TextInput';
 import { Routes, StackNavigationProps } from '../../Navigators/Navigation';
 import { Box, Text } from '../../Themes/Theme';
+import { TextInput as RNTextInput } from 'react-native';
 
 const LoginSchema = Yup.object().shape({
   password: Yup.string()
@@ -34,8 +35,8 @@ const Login = ({
     onSubmit: values => console.log(values),
   });
 
-  const email = useRef<typeof TextInput>(null);
-  const password = useRef<typeof TextInput>(null);
+  const email = useRef<RNTextInput>(null);
+  const password = useRef<RNTextInput>(null);
 
   const footer = (
     <AuthFooter
